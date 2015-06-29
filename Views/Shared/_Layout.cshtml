@@ -1,0 +1,169 @@
+﻿@model BootstrapPractive.Models.ViewModels.IndexViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - PakShop.com</title>
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("/Content/LayoutCss.css")
+    @Styles.Render("/Content/adsDetails.css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
+    @RenderSection("s1", false);
+    @RenderSection("s2", false);
+    @RenderSection("s3", false);
+</head>
+<body>
+    <div class="navbar navbar-default navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header navbar-right">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a id="addBtnLink" class="add-classified-btn navbar-left" role="button"><p id="addBtnText" class="btn btn-success">Add Classified</p></a></li>
+                        <li class="col-md-7 col-lg-5">
+                            <form class="navbar-form" role="search" method="get" id="searchform">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" id="searchcategory" value="Category" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Category <span class="caret"></span></button>
+                                        <ul id="searchdropdown" class="dropdown-menu" role="menu">
+                                            <li><a href="javascript:void(0)">BLOG</a></li>
+                                            <li><a href="javascript:void(0)">FORUM</a></li>
+                                            <li><a href="javascript:void(0)">DOCS</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="javascript:void(0)">ANY</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" value="" placeholder="Search..." name="s" id="s">
+                                    <div class="input-group-btn">
+                                        <button type="submit" id="searchsubmit" value="Search" class="btn btn-success pull-left"><span class="glyphicon glyphicon-search"></span></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+                        <li><a href="/Home/Index"><span class="glyphicon glyphicon-home"></span> Home / <span class="glyphicon glyphicon-search"></span> Search</a></li>
+                        <li><a href="/Home/Index"><span class="glyphicon glyphicon-phone-alt"></span> Contact Us</a></li>
+                        @if (Session["Id"] == null)
+                        {
+                            <li><a href="/Signup/Signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                            <li><a href="/Login/Login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
+                        }
+                        else
+                        {
+                            Model.addGiver = Model.getUserDetails((int)Session["Id"]);
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> @(Model.addGiver.Name != null ? Model.addGiver.Name : "NAME")<b class="caret"></b></a>
+                                <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div>
+                                                    <p class="text-center text-success">Total Ads: @(Model.addGiver.Total_Ads != null ? Model.addGiver.Total_Ads.ToString() : "0")</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-center text-center">Favourite Ads: @(Model.addGiver.Favourite_Ads != null ? Model.addGiver.Favourite_Ads.ToString() : "0")</p>
+                                                </div>
+                                                <div>
+                                                    <a class="text-center btn btn-block btn-warning" href="~/Home/MyClassifieds/@Model.addGiver.Id">My Classifieds</a>
+                                                </div>
+                                                <form class="form" role="form" method="post" action="/Home/Signout/@Model.addGiver.Id" accept-charset="UTF-8" id="login-nav">
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-success btn-block">Sign Out</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="2500">
+            <!-- Indicators -->
+            <ol id="dots" class="pull-right carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img src="\Images\slide-02.jpg" alt="Slider 1">
+                </div>
+
+                <div class="item">
+                    <img src="\Images\slide-02.jpg" alt="Slider 1">
+                </div>
+
+                <div class="item">
+                    <img src="\Images\slide-02.jpg" alt="Slider 1">
+                </div>
+
+                <div class="item">
+                    <img src="\Images\slide-02.jpg" alt="Slider 1">
+                </div>
+            </div>
+        </div>
+        <div class="row col-lg-12">
+            @if (!(Request.Url.AbsolutePath.ToString().Contains("Index") || (Request.Url.AbsolutePath.Split('/').Count() == 2) ))
+            {
+                
+                @*Rendering of category list*@
+                {Html.RenderAction("CategoryList", "CategorySideBar");}
+            }
+            @RenderBody()
+        </div>
+        <div class="footer">
+            <div class="well well-sm">
+                <div class="pull-left">
+                    <ul class="nav nav-pills">
+                        <li><a href="/AddClassified/AddClassified/"><span class="glyphicon glyphicon-plus"></span> Add classified</a></li>
+                    </ul>
+                </div>
+                <div class="pull-right">
+                    <ul class="nav nav-pills">
+                        <li><a href="help.html">Help</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="conditions.html">Rules & conditions</a></li>
+                    </ul>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+            <hr />
+            <footer>
+                <p class="text-muted pull-right">&copy; @DateTime.Now.Year - PakShop.com</p>
+            </footer>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    @*JavaScript*@
+    <script>
+        $(document).ready(f1);
+        function f1() {
+            $("#cats").find("a").click(f2);
+            $("#addBtnLink").click(function () { window.location = "/AddClassified/AddClassified/"; });
+        }
+        function f2(e) {
+            $("#catForm").attr("action", "/Category/Category/" + $(this).attr('id'));
+            $("#catForm").submit();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+﻿.top-classified thumbnail {
+    height:117px;
+    width:156px;
+}
+
+.top-classifieds {
+ margin:5px;
+}
+
+.top-classified {
+    color:gray;
+    font-size:12px;
+}

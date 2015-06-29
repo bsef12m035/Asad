@@ -1,0 +1,45 @@
+﻿@model List<BootstrapPractive.Models.Category>
+<section>
+    <div class="col-lg-3 content-left">
+        <h4>Categories</h4>
+        <form id="catForm" method="post">
+            <div id="cats" class="list-group categories">
+                @foreach (var x in Model)
+                {
+                    <a id="@x.Id" class="list-group-item"> @x.Cat_Name<span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                }
+            </div>
+        </form>
+        <h4>Newest classifieds</h4>
+        <div class="newest-classifieds">
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" style="width: 64px; height: 64px;" src="http://placehold.it/64x64/e0e0e0" />
+                </a>
+                <div class="media-body">
+                    <p><a href="#"><strong>Samsung Galaxy S4</strong></a></p>
+                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel ...</p>
+                </div>
+            </div>
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" style="width: 64px; height: 64px;" src="http://placehold.it/64x64/e0e0e0" />
+                </a>
+                <div class="media-body">
+                    <p><a href="#"><strong>Vizio 60" Slim Frame 3D LED</strong></a></p>
+                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel ...</p>
+                </div>
+            </div>
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" style="width: 64px; height: 64px;" src="http://placehold.it/64x64/e0e0e0" />
+                </a>
+                <div class="media-body">
+                    <p><a href="#"><strong>Apple McBook Pro</strong></a></p>
+                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel ...</p>
+                </div>
+            </div>
+            <p class="text-right show-more"><a href="#">More &rarr;</a></p>
+        </div>
+    </div>
+</section>

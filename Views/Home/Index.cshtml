@@ -1,0 +1,198 @@
+﻿@model BootstrapPractive.Models.ViewModels.IndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+@section s1 {
+    <link href="/Content/Index.css" rel="stylesheet" type="text/css" />
+}
+<!-- Content -->
+<h3 class="page-header">Search what are you looking for...</h3>
+<form class="form" method="get">
+    <div class="input-group well">
+        <div class="form-group col-md-3">
+            <select class="form-control" id="cat">
+                <option id="0">Select Category</option>
+                @foreach (var x in Model.cat)
+                {
+                    <option id="@x.Id">@x.Cat_Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" value="" placeholder="BMX cycle, iphone etc..." id="searcTxt">
+        </div>
+        <div class="col-md-2">
+            <p class="btn btn-success">Select Price Range:</p>
+        </div>
+        <div class="col-md-3">
+            <select id="price" class="form-control">
+                <option>All Prices</option>
+                <optgroup label="Low">
+                    <option>1-5000 Rs</option>
+                    <option>5000-10000 Rs</option>
+                    <option>10000-20000 Rs</option>
+                    <option>20000-30000 Rs</option>
+                    <option>30000-40000 Rs</option>
+                    <option>40000-50000 Rs</option>
+                </optgroup>
+                <optgroup label="Medium">
+                    <option>50000-100000 Rs</option>
+                    <option>50000-100000 Rs</option>
+                    <option>100000-200000 Rs</option>
+                    <option>200000-300000 Rs</option>
+                    <option>300000-400000 Rs</option>
+                    <option>400000-500000 Rs</option>
+                </optgroup>
+                <optgroup label="High">
+                    <option>500000-600000 Rs</option>
+                    <option>600000-700000 Rs</option>
+                    <option>700000-800000 Rs</option>
+                    <option>800000-900000 Rs</option>
+                    <option>900000-1000000 Rs</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="input-group-btn col-md-1">
+            <button id="searchBtn" type="submit" style="margin-left:-10px;" value="Search" class="btn btn-success pull-left">Search <span class="glyphicon glyphicon-search"></span></button>
+        </div>
+    </div>
+</form>
+
+<div id="SearchResults" class="container">
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Or Look Into These Categories...</h3>
+        </div>
+        @foreach (var x in Model.cat)
+        {
+            <a href="~/Category/Category/@x.Id">
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb" style="margin-top:10px;">
+                    <div class="product-box">
+                        <img src="~/CatagoryPics/@x.Img_Name" alt="Yeni Ürünler" class="align-center img-responsive" style="width:250px;height:250px;">
+                        <div class="urun-title"><span class="glyphicon glyphicon-star"></span> @x.Cat_Name</div>
+                        <div class="urun-text">Total Classifieds: @x.Total_Ads</div>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+    <hr>
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; PakShop.com</p>
+            </div>
+        </div>
+    </footer>
+</div>
+<style>
+    .product-box {
+        display: inline-block;
+        position: relative;
+    }
+
+    .urun-text {
+        position: absolute;
+        background-color: rgba(15, 15, 15, 0.93);
+        color: #fff;
+        bottom: 0px;
+        text-align: left;
+        padding: 20px 15px 20px 15px;
+        width: 100%;
+    }
+
+    .urun-title {
+        position: absolute;
+        bottom: 60px;
+        text-align: left;
+        z-index: 15;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        color: #fff;
+        padding-left: 20px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+        background-color: rgba(194, 0, 0, 0.93);
+        width: 100%;
+    }
+
+    .click-arrow-right {
+        position: absolute;
+        z-index: 16;
+        color: #fff;
+        font-size: 10px;
+        bottom: 0px;
+        right: 33px;
+    }
+
+    .urun-title {
+        width: 100%;
+    }
+</style>
+
+<div id="myModal" style="top: 25%; overflow:hidden;" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please write something to search...</h4>
+            </div>
+            <div class="modal-body" style="margin:0 auto; width:160px;">
+                <button type="button" class="btn btn-info btn-block" data-dismiss="modal" style="width:70px;">Got it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModal2" style="top: 25%; overflow:hidden;" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please Choose a category...</h4>
+            </div>
+            <div class="modal-body" style="margin:0 auto; width:160px;">
+                <button type="button" class="btn btn-info btn-block" data-dismiss="modal" style="width:70px;">Got it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#searchBtn").click(checkForm);
+    });
+    function checkForm() {
+        if ($("#searcTxt").val() == "")
+            $("#myModal").modal("show");
+        if ($("#cat").val() == "Select Category") {
+            $("#myModal2").modal("show");
+        }
+        if (!($("#searcTxt").val() == "" || $("#cat").val() == "Select Category")) {
+            $.getJSON("/Home/Search", { Text: $("#searcTxt").val(), Cat: $("#cat").val(), Price: $("#price").val() },
+                    function (data) {
+                        $("#SearchResults").empty();
+                        $("#SearchResults").append("<h3>Your Search Results</h3>");
+                        $("#SearchResults").append("<table class=\"table table-hover\" id=\"UserAdds\"><thead><tr><th>Product</th><th class=\"text-center\">Price</th><th class=\"text-center\">Views</th></tr></thead><tbody>");
+                        $.each(data, function (id, item) {
+                            $("#UserAdds").append("<tr id=" + item.id + "> <td class=\"col-sm-8 col-md-6\"> <div class=\"media\"> <a class=\"thumbnail pull-left\" href=\"~/AddDetails/AdsDetails/" + item.id + "\"> <img class=\"media-object\" src=\"/UserAdsPics/" + item.image1Name + "\" style=\"width: 72px; height: 72px;\" /></a> <div class=\"media-body\"> <h4 class=\"media-heading\"><a href=\"~/AddDetails/AdsDetails/" + item.id + "\">" + item.Heading + "</a></h4> <p><small>" + item.Description + "</small></p></div></div></td><td class=\"col-sm-1 col-md-1 text-center\" style=\"vertical-align: middle;\"><strong>" + item.price + "</strong></td><td class=\"col-sm-1 col-md-1 text-center\" style=\"vertical-align: middle;\">" + item.Viewed + "</td></tr>");
+                        });
+                        $("#SearchResults").append("</tbody></table>");
+                        $("#UserAdds").find("tr").click(f4);
+                    });
+        }
+        return false;
+    }
+    function f4(e) {
+        var id = this.id;
+        window.location = "/AddDetails/AdsDetails/" + id;
+    }
+</script>

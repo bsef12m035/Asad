@@ -1,0 +1,47 @@
+﻿@model BootstrapPractive.Models.ViewModels.IndexViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="col-md-5">
+    <h3>Login to experience the most of PakShop.com with many other satisfied users</h3>
+</div>
+
+<div class="pull-right col-md-3">
+    <h2>Login</h2>
+    <div class="form-group">
+        <input name="email" type="email" class="form-control" id="loginEmail" placeholder="Email address" required><span id="err_mess" style="color:red;"></span>
+        <br />
+        <input name="pass" type="password" class="form-control" id="loginPass" placeholder="Password" required><span id="err_mess1" style="color:red;"></span>
+        <br />
+        <p id="validation_error" style="color:red;"></p>
+        <button type="submit" id="loginBtn" class="btn btn-success">Sign in</button>
+    </div>
+</div>
+
+@*JavaScript*@
+<script>
+    $(document).ready(f3);
+    function f3() {
+        $("#loginBtn").click(f4);
+    }
+    function f4() {
+        if (!$("#loginEmail").val())
+            $("#err_mess").html("Field needs filling");
+        else
+            $("#err_mess").hide();
+        if (!$("#loginPass").val())
+            $("#err_mess1").html("Field needs filling");
+        else
+            $("#err_mess1").hide();
+        if ($("#loginEmail").val() && $("#loginPass").val()) {
+            $.getJSON("/Login/LoginCheck", { Pass: $("#loginPass").val(), Email: $("#loginEmail").val() }, function (response) {
+                if (response > 0)
+                    window.location.href = "/Home/Index/";
+                else
+                    $("#validation_error").html("Invalid UserName or Password");
+            });
+        }
+        return false;
+    }
+</script>

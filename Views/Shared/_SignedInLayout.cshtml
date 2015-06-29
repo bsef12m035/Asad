@@ -1,0 +1,202 @@
+﻿@model BootstrapPractive.Models.UserLogin 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - PakShop.com</title>
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("/Content/LayoutCss.css")
+    @Styles.Render("/Content/adsDetails.css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("s1", false);
+    @RenderSection("s2", false);
+    @RenderSection("s3", false);
+</head>
+<body>
+    <div class="navbar navbar-default navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header navbar-right">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a id="addBtnLink" href="addClassified.html" class="add-classified-btn navbar-left" role="button"><p id="addBtnText" class="btn btn-success">Add Classified</p></a></li>
+                        <li class="col-md-7 col-lg-5">
+                            <form class="navbar-form" role="search" method="get" id="searchform">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" id="searchcategory" value="Category" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Category <span class="caret"></span></button>
+                                        <ul id="searchdropdown" class="dropdown-menu" role="menu">
+                                            <li><a href="javascript:void(0)">BLOG</a></li>
+                                            <li><a href="javascript:void(0)">FORUM</a></li>
+                                            <li><a href="javascript:void(0)">DOCS</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="javascript:void(0)">ANY</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" value="" placeholder="Search..." name="s" id="s">
+                                    <div class="input-group-btn">
+                                        <button type="submit" id="searchsubmit" value="Search" class="btn btn-success pull-left"><span class="glyphicon glyphicon-search"></span></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+                        <li><a href="help.html">Help</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@(Model.Name != null ? Model.Name : "NAME")<b class="caret"></b></a>
+                            <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div>
+                                                <p>Total Ads: @(Model.Total_Ads != null ? Model.Total_Ads.ToString() : "0")</p>
+                                            </div>
+                                            <div>
+                                                <p>Favourite Ads: @(Model.Favourite_Ads != null ? Model.Favourite_Ads.ToString() : "0")</p>
+                                            </div>
+                                            <form class="form" role="form" method="post" action="/SignedInUser/Signout/@Model.Id" accept-charset="UTF-8" id="login-nav">
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-success btn-block">Sign Out</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="2500">
+            <!-- Indicators -->
+            <ol id="dots" class="pull-right carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img src="\Images\slide-01.jpg" alt="Slider 1">
+                </div>
+
+                <div class="item">
+                    <img src="\Images\slide-02.jpg" alt="Slider 1">
+                </div>
+
+                <div class="item">
+                    <img src="\Images\slide-02.jpg" alt="Slider 1">
+                </div>
+
+                <div class="item">
+                    <img src="\Images\slide-02.jpg" alt="Slider 1">
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            @*<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>*@
+        </div>
+        <div class="row col-lg-12">
+            <div class="col-lg-3 content-left">
+                @*<h4>Search</h4>
+                    <div class="well well-sm">
+                        <form>
+                            <fieldset>
+                                <input type="text" class="form-control" />
+                                <small><a id="advBtn" href="#" class="btn-advanced-search">Advanced</a></small>
+                                <input id="searchBtn" type="submit" class="btn btn-danger btn-sm btn-search pull-right" value="Search" />
+                            </fieldset>
+                        </form>
+                    </div>*@
+
+                <h4>Categories</h4>
+                <div id="cats" class="list-group categories">
+                    <a href="#" class="list-group-item">Books <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                    <a href="#" class="list-group-item">Cameras & Photo <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                    <a href="#" class="list-group-item">Cell Phones & Accessories <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                    <a href="#" class="list-group-item">Clothing, Shoes & Accessories <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                    <a href="#" class="list-group-item">Computers & Networking <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                    <a href="#" class="list-group-item">DVDs & Movies <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                    <a href="#" class="list-group-item">Health & Beauty <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                    <a href="#" class="list-group-item">Music <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                    <a href="#" class="list-group-item">Toys & Hobbies <span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                </div>
+                <h4>Newest classifieds</h4>
+                <div class="newest-classifieds">
+                    <div class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object" style="width: 64px; height: 64px;" src="http://placehold.it/64x64/e0e0e0" />
+                        </a>
+                        <div class="media-body">
+                            <p><a href="#"><strong>Samsung Galaxy S4</strong></a></p>
+                            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel ...</p>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object" style="width: 64px; height: 64px;" src="http://placehold.it/64x64/e0e0e0" />
+                        </a>
+                        <div class="media-body">
+                            <p><a href="#"><strong>Vizio 60" Slim Frame 3D LED</strong></a></p>
+                            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel ...</p>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object" style="width: 64px; height: 64px;" src="http://placehold.it/64x64/e0e0e0" />
+                        </a>
+                        <div class="media-body">
+                            <p><a href="#"><strong>Apple McBook Pro</strong></a></p>
+                            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel ...</p>
+                        </div>
+                    </div>
+                    <p class="text-right show-more"><a href="#">More &rarr;</a></p>
+                </div>
+            </div>
+            @RenderBody()
+        </div>
+        <div class="footer">
+            <div class="well well-sm">
+                <div class="pull-left">
+                    <ul class="nav nav-pills">
+                        <li><a href="addClassified.html"><span class="glyphicon glyphicon-plus"></span> Add classified</a></li>
+                    </ul>
+                </div>
+                <div class="pull-right">
+                    <ul class="nav nav-pills">
+                        <li><a href="help.html">Help</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="conditions.html">Rules & conditions</a></li>
+                    </ul>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+            <hr />
+            <footer>
+                <p class="text-muted pull-right">&copy; @DateTime.Now.Year - PakShop.com</p>
+            </footer>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

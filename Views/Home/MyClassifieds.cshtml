@@ -1,0 +1,62 @@
+﻿@model BootstrapPractive.Models.ViewModels.IndexViewModel
+@{
+    ViewBag.Title = "MyClassifieds";
+}
+<div class="col-lg-9 content-right">
+    <div class="row classifieds-table">
+        <div class="col-lg-12">
+            <table class="table table-hover" id="UserAdds">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Views</th>
+                        <th class="text-center">Date Added</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.catAds)
+                    {
+                        <tr id="@x.Id">
+                            <td class="col-sm-8 col-md-6">
+                                <div class="media">
+                                    <a class="thumbnail pull-left" href="~/AddDetails/AdsDetails/@x.Id">
+                                        <img class="media-object" src="/UserAdsPics/@x.image1Name" style="width: 72px; height: 72px;" />
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href="~/AddDetails/AdsDetails/@x.Id">@x.Heading</a></h4>
+                                        <p><small>@x.Description</small></p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-sm-1 col-md-1 text-center" style="vertical-align: middle;"><strong>@x.price</strong></td>
+                            <td class="col-sm-1 col-md-1 text-center" style="vertical-align: middle;">@x.Viewed</td>
+                            <td class="col-sm-1 col-md-1 text-center" style="vertical-align: middle;">@x.Date_Added</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-12" style="text-align: center;">
+            <ul class="pagination">
+                <li class="disabled"><a href="#">«</a></li>
+                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">»</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(f3);
+    function f3() {
+        $("#UserAdds").find("tr").click(f4);
+    }
+    function f4(e) {
+        var id = this.id;
+        window.location = "/AddDetails/AdsDetails/" + id;
+    }
+</script>

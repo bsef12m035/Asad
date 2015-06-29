@@ -1,0 +1,169 @@
+﻿@model BootstrapPractive.Models.ViewModels.IndexViewModel
+@{
+    ViewBag.Title = "AddClassified";
+}
+<div class="col-lg-9 content-right">
+    <h2>Add classified</h2>
+    <p>Add Classifieds for anything and find interested buyers. More detailed ads have 60% higher rate of being contacted.</p>
+    <hr>
+    @if (Session["Id"] == null)
+    {
+        <h3>Please <a href="/Login/Login">Login</a> or <a href="/Signup/Signup">Signup</a> to Add Classified</h3>
+    }
+    else
+    {
+        <form role="form" action="/AddClassified/SaveAddDetails" method="post" enctype="multipart/form-data">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Classified sections</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group col-lg-12">
+                        <label for="category">Category</label>
+                        @Html.DropDownListFor(m => m.add.Cat_id, new SelectList(Model.cat, "Id", "Cat_Name"), new { @class = "form-control", required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="heading">Heading</label>
+                        @Html.TextBoxFor(m => m.add.Heading, new { placeholder = "eg. Apple iPad mini 32GB Wi-Fi + Cellular 1 Year Warranty", type = "text", @class = "form-control", required = "required", value = (ViewBag.heading != null ? ViewBag.heading : "") })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="brand">Brand (Optional)</label>
+                        @Html.TextBoxFor(m => m.add.Brand, new { placeholder = "Brand", type = "text", @class = "form-control", value = (ViewBag.brand != null ? ViewBag.brand : "") })
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Price</label>
+                        <div class="input-group" style="width: 150px;">
+                            @Html.TextBoxFor(m => m.add.price, new { placeholder = "Price", type = "number", min = "1", @class = "form-control", required = "required", value = (ViewBag.price != null ? ViewBag.price : "") })
+                            <span class="input-group-addon">PKR</span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="text">Location</label>
+                        @Html.TextBoxFor(m => m.add.Location, new { placeholder = "Location", @class = "form-control", rows = "6", required = "required", value = (ViewBag.location != null ? ViewBag.location : "") })
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="text">Description</label>
+                        @Html.TextAreaFor(m => m.add.Description, new { placeholder = "Description", @class = "form-control", rows = "6", required = "required", value = (ViewBag.descr != null ? ViewBag.descr : "") })
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Classified's Picture</h3>
+                </div>
+                <div class="panel-body">
+                    @if (ViewBag.id != null && ViewBag.id == -1)
+                    {
+                        <p style="color:red;">Sorry! There is a file with extension of image file but is not an image, please attach a new image.</p>
+                    }
+                    <div class="row form-group" style="margin-bottom:10px; margin-right:0px;">
+                        <p id="addMoreBtn" class="btn btn-primary pull-right">Add More</p>
+                    </div>
+                    <div id="addPictures" class="form-group">
+                        <div id="img1Div" class="row">
+                            <input class="col-md-8 pull-left" type="file" id="image1" name="image1">
+                            <p id="btnImg1" style="margin-right:10px;" class="btn btn-danger btn-sm pull-right">Clear</p>
+                            <span id="err_msg1" style="color:red; display:none;">Only Pictures are allowed!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="well">
+                <p>To continue, you must agree to our terms and services.</p>
+                <div class="checkbox">
+                    <label><input type="checkbox" required> I agree to the <a href="#">Terms of Use</a></label>
+                </div>
+                <button id="adClassifiedSubmitBtn" type="submit" class="btn btn-success">Post Ad</button>
+            </div>
+        </form>
+    }
+</div>
+<script>
+    var totalPics = 1;
+    var max_err_shown = false;
+    $(document).ready(assignAddMore);
+    function assignAddMore() {
+        $("#image1").change(changeFunc);
+        $("#addMoreBtn").click(addMoreFunc);
+        $("#adClassifiedSubmitBtn").click(checkPictures);
+        $("#btnImg1").click(clearPicture);
+    }
+    function checkPictures() {
+        if ($("#err_msg1").is(':visible') || $("#err_msg2").is(":visible") || $("#err_msg3").is(":visible") || $("#err_msg4").is(":visible")) {
+            alert("Please upload only pictures");
+            return false;
+        }
+    }
+    function changeFunc(e) {
+        var type = $(this).val().split('.').pop();
+        if (type != "jpg" && type != "png" && type != "gif") {
+            if (this.id == "image1")
+                $("#err_msg1").css("display", 'block');
+            if (this.id == "image2")
+                $("#err_msg2").css("display", 'block');
+            if (this.id == "image3")
+                $("#err_msg3").css("display", 'block');
+            if (this.id == "image4")
+                $("#err_msg4").css("display", 'block');
+        }
+        else {
+            if (this.id == "image1")
+                $("#err_msg1").css("display", 'none');
+            if (this.id == "image2")
+                $("#err_msg2").css("display", 'none');
+            if (this.id == "image3")
+                $("#err_msg3").css("display", 'none');
+            if (this.id == "image4")
+                $("#err_msg4").css("display", 'none');
+        }
+    }
+    function addMoreFunc() {
+        if (totalPics == 1) {
+            $("#addPictures").append("<div style=\"margin-top:5px;\" class=\"row\" id=\"img2Div\"> </div>")
+            $("#img2Div").append("<input class=\"col-md-8 pull-left\" type=\"file\" id=\"image2\" name=\"image2\" >");
+            $("#image2").change(changeFunc);
+            $("#img2Div").append("<p style=\"margin-right:10px;\" id=\"btnImg2\" class=\"btn btn-danger btn-sm pull-right\">Clear</p>");
+            $("#btnImg2").click(clearPicture);
+            $("#img2Div").append("<span id=\"err_msg2\" style=\"color:red;display:none;\">Only Pictures are allowed!</span>");
+            totalPics++;
+        }
+        else if (totalPics == 2) {
+            $("#addPictures").append("<div style=\"margin-top:5px;\" class=\"row\" id=\"img3Div\"> </div>")
+            $("#img3Div").append("<input class=\"col-md-8 pull-left\" type=\"file\" id=\"image3\" name=\"image3\" >");
+            $("#image3").change(changeFunc);
+            $("#img3Div").append("<p style=\"margin-right:10px;\" id=\"btnImg3\" class=\"btn btn-danger btn-sm pull-right\">Clear</p>");
+            $("#btnImg3").click(clearPicture);
+            $("#img3Div").append("<span id=\"err_msg3\" style=\"color:red;display:none;\">Only Pictures are allowed!</span>");
+            totalPics++;
+        }
+        else if (totalPics == 3) {
+            $("#addPictures").append("<div style=\"margin-top:5px;\" class=\"row\" id=\"img4Div\"> </div>")
+            $("#img4Div").append("<input class=\"col-md-8 pull-left\" type=\"file\" id=\"image4\" name=\"image4\" >");
+            $("#image4").change(changeFunc);
+            $("#img4Div").append("<p style=\"margin-right:10px;\" id=\"btnImg4\" class=\"btn btn-danger btn-sm pull-right\">Clear</p>");
+            $("#btnImg4").click(clearPicture);
+            $("#img4Div").append("<span id=\"err_msg4\" style=\"color:red;display:none;\">Only Pictures are allowed!</span>");
+            totalPics++;
+        }
+        else if (max_err_shown == false) {
+            $("#addPictures").append("<p id=\"max_err\" style=\"color:red;\">Sorry! Maximum 4 pictures are allowed</p>");
+            max_err_shown = true;
+        }
+    }
+
+    function clearPicture(e) {
+        var id = $(this).parent().attr("id");
+        if (id == "img1Div") {
+            $("#image1").val(null);
+        }
+        else if (id == "img2Div") {
+            $("#image2").val(null);
+        }
+        else if (id == "img3Div") {
+            $("#image3").val(null);
+        }
+        else if (id == "img4Div") {
+            $("#image4").val(null);
+        }
+    }
+</script>

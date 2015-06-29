@@ -1,0 +1,71 @@
+﻿@model BootstrapPractive.Models.ViewModels.IndexViewModel
+@{
+    ViewBag.Title = "Signup";
+}
+<div class="col-lg-9 content-right">
+    <h2>Sign Up</h2>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="well">
+                <form action="/Signup/SaveData" method="post" role="form">
+                    <div class="form-group col-md-6 pull-left" >
+                        @Html.TextBoxFor(m => m.addGiver.email, new { id = "email", placeholder = "Email", type = "text", @class = "form-control", required = "required" })
+                    </div>
+                    <div class="col-md-6" >
+                        <p id="email_error" style="color:red;">Error! Email Address already Used.</p>
+                        <p id="email_ok" style="color:green;">Email Address ok.</p>
+                    </div>
+                    <div class="form-group col-md-12 pull-left">
+                        @Html.TextBoxFor(m => m.addGiver.Name, new { placeholder = "Name", type = "text", @class = "form-control", required = "required" })
+                    </div>
+                    <div class="form-group col-md-12 pull-left">
+                        @Html.TextBoxFor(m => m.addGiver.Phone_Num, new { placeholder = "Phone", type = "text", @class = "form-control", required = "required" })
+                    </div>
+                    <div class="form-group col-md-12 pull-left">
+                        @Html.TextBoxFor(m => m.addGiver.Address, new { placeholder = "Address", type = "text", @class = "form-control", required = "required" })
+                    </div>
+                    <div class="form-group col-md-12 pull-left">
+                        @Html.TextBoxFor(m => m.addGiver.password, new { placeholder = "Password", type = "password", @class = "form-control", required = "required" })
+                    </div>
+                    <div class="col-md-12 pull-left">
+                        <p id="error2" style="color:red;">Please choose a unique email address!</p>
+                    </div>
+                    <button id="signupBtn" class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*JavaScript*@
+<script>
+    var form_ok = false;
+    $(document).ready(f3);
+    function f3() {
+        $("#email").blur(f4);
+        $("#email_ok").hide();
+        $("#error2").hide();
+        $("#email_error").hide();
+        $("#signupBtn").click(submitSignupForm);
+    }
+    function f4() {
+        $.getJSON("/Signup/CheckEmail", { Email: $("#email").val() }, function (response) {
+            if (response > 0) {
+                $("#email_error").fadeOut("slow", function () { $("#email_ok").slideDown("slow"); });
+                $("#error2").fadeOut("fast");
+                form_ok = true;
+            }
+            else {
+                $("#email_ok").fadeOut("slow", function () { $("#email_error").slideDown("slow"); });
+                form_ok = false;
+            }
+        });
+    }
+    function submitSignupForm() {
+        if (form_ok == false) {
+            $("#error2").slideDown("slow");
+            return false;
+        }
+    }
+</script>
