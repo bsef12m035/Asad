@@ -5,11 +5,12 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="aaeecec061cc4cdabb54af5c2ca97fcf" Name="Diagram1" DisplayType="true">
-        <EntityTypeShape EntityType="Database1Model.UserAd" Width="1.5" PointX="3" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Database1Model.UserAd" Width="1.5" PointX="4.5" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="Database1Model.UserLogin" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="Database1Model.FK_UserAds_UserLogin" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="Database1Model.Category" Width="1.5" PointX="5.5" PointY="0.5" />
+        <EntityTypeShape EntityType="Database1Model.Category" Width="1.5" PointX="7.875" PointY="0.5" />
         <AssociationConnector Association="Database1Model.FK_UserAds_Categories" />
+        <EntityTypeShape EntityType="Database1Model.AdminLogin" Width="1.5" PointX="0.75" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
